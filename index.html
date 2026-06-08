@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>꾸준함 기록지</title>
+<title>dailyyan tools</title>
 <style>
   :root {
     --bg: #f4f1ea;
@@ -14,403 +14,130 @@
     --deep: #274653;
     --teal: #287271;
     --coral: #e76f51;
-    --gold: #d89b2b;
-    --green: #3c7d4d;
     --blue: #456ca8;
-    --shadow: 0 14px 32px rgba(35, 31, 25, .08);
-    --focus: 0 0 0 3px rgba(40, 114, 113, .18);
+    --shadow: 0 18px 40px rgba(35, 31, 25, .1);
   }
 
   * { box-sizing: border-box; }
 
   body {
     margin: 0;
+    min-height: 100vh;
     background:
-      linear-gradient(180deg, rgba(39, 70, 83, .08), transparent 310px),
+      linear-gradient(180deg, rgba(39, 70, 83, .1), transparent 330px),
       var(--bg);
     color: var(--ink);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
     line-height: 1.45;
   }
 
-  button, input, textarea { font: inherit; }
-  button { cursor: pointer; }
-
   .wrap {
-    width: min(1120px, 100%);
+    width: min(980px, 100%);
     margin: 0 auto;
-    padding: 18px;
+    padding: 24px;
   }
 
-  .top {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 18px;
-    align-items: end;
-    margin: 12px 0 18px;
+  header {
+    padding: 24px 0 18px;
+  }
+
+  .eyebrow {
+    margin: 0 0 8px;
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 900;
   }
 
   h1 {
     margin: 0;
-    font-size: clamp(30px, 5vw, 56px);
-    line-height: 1.02;
-    letter-spacing: 0;
-  }
-
-  .sub {
-    margin: 9px 0 0;
-    color: var(--muted);
-    font-size: 15px;
-  }
-
-  .streak {
-    min-width: 156px;
-    border: 1px solid var(--line);
-    background: var(--surface);
-    border-radius: 8px;
-    padding: 12px;
-    box-shadow: var(--shadow);
-  }
-
-  .streak span {
-    display: block;
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 750;
-  }
-
-  .streak strong {
-    display: block;
-    margin-top: 2px;
-    font-size: 31px;
+    font-size: clamp(34px, 6vw, 64px);
     line-height: 1;
-    color: var(--teal);
-  }
-
-  .tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-
-  .tab, .btn {
-    min-height: 40px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #fffaf1;
-    color: #332f29;
-    padding: 0 14px;
-    font-weight: 800;
-  }
-
-  .tab.active, .btn.primary {
-    background: var(--deep);
-    border-color: var(--deep);
-    color: #fff;
-  }
-
-  .btn.teal {
-    background: var(--teal);
-    border-color: var(--teal);
-    color: #fff;
-  }
-
-  .btn.light {
-    background: #fff;
-  }
-
-  .btn.warn {
-    background: #fff1ea;
-    border-color: #e3b9a7;
-    color: #7d321b;
-  }
-
-  .btn:disabled {
-    opacity: .48;
-    cursor: default;
-  }
-
-  .page { display: none; }
-  .page.active { display: block; }
-
-  .layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 360px;
-    gap: 14px;
-    align-items: start;
-  }
-
-  .panel {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: var(--surface);
-    box-shadow: var(--shadow);
-    padding: 18px;
-  }
-
-  .panel-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-
-  .panel-head h2 {
-    margin: 0;
-    font-size: 18px;
     letter-spacing: 0;
   }
 
-  .name-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-
-  input[type="text"], textarea {
-    width: 100%;
-    border: 1px solid #cfc6b8;
-    border-radius: 8px;
-    background: #fff;
-    color: var(--ink);
-    outline: none;
-  }
-
-  input[type="text"] {
-    min-height: 44px;
-    padding: 0 12px;
-  }
-
-  textarea {
-    min-height: 86px;
-    resize: vertical;
-    padding: 10px 12px;
-  }
-
-  input[type="text"]:focus, textarea:focus {
-    border-color: var(--teal);
-    box-shadow: var(--focus);
-  }
-
-  .hello {
-    display: none;
-    border: 1px solid #b8d3c8;
-    background: #eff9f4;
-    color: #235a3c;
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 14px;
-    font-size: 14px;
-    font-weight: 750;
-  }
-
-  .hello.show { display: block; }
-
-  .form-area { display: none; }
-  .form-area.show { display: block; }
-
-  .metric {
-    border-top: 1px solid #eee6d8;
-    padding: 15px 0;
-  }
-
-  .metric:first-child {
-    border-top: 0;
-    padding-top: 0;
-  }
-
-  .metric-head {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 72px;
-    gap: 12px;
-    align-items: start;
-    margin-bottom: 10px;
-  }
-
-  .metric-title {
-    margin: 0;
-    font-weight: 850;
-  }
-
-  .metric-desc {
-    margin: 3px 0 0;
+  .lead {
+    max-width: 680px;
+    margin: 12px 0 0;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 16px;
   }
 
-  .value-pill {
-    min-height: 34px;
-    display: grid;
-    place-items: center;
-    border: 1px solid #bed0ca;
-    background: #eef8f5;
-    color: var(--teal);
-    border-radius: 999px;
-    font-weight: 900;
-  }
-
-  input[type="range"] {
-    width: 100%;
-    accent-color: var(--teal);
-  }
-
-  .range-labels {
-    display: flex;
-    justify-content: space-between;
-    color: var(--muted);
-    font-size: 11px;
-  }
-
-  .choice-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .choice {
-    min-height: 54px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #fff;
-    color: #2e2a25;
-    padding: 8px;
-    text-align: left;
-  }
-
-  .choice strong {
-    display: block;
-    font-size: 13px;
-  }
-
-  .choice span {
-    display: block;
-    margin-top: 2px;
-    color: var(--muted);
-    font-size: 11px;
-  }
-
-  .choice.active {
-    border-color: var(--teal);
-    background: #edf8f4;
-    box-shadow: var(--focus);
-  }
-
-  .template-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-  .field-label {
-    display: block;
-    margin-bottom: 6px;
-    color: #3b352f;
-    font-size: 13px;
-    font-weight: 850;
-  }
-
-  .result-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 16px;
-    align-items: center;
-    padding-bottom: 16px;
-    border-bottom: 1px solid #eee6d8;
-    margin-bottom: 16px;
-  }
-
-  .level {
-    margin: 0;
-    font-size: clamp(27px, 4vw, 44px);
-    line-height: 1.06;
-    letter-spacing: 0;
-  }
-
-  .level-badge {
-    border-radius: 999px;
-    padding: 8px 13px;
-    border: 1px solid var(--line);
-    background: #fffaf1;
-    font-weight: 900;
-    white-space: nowrap;
-  }
-
-  .level-badge.tiny { color: #7d321b; background: #fff1ea; border-color: #e3b9a7; }
-  .level-badge.light { color: var(--gold); background: #fff7de; border-color: #e7d19a; }
-  .level-badge.steady { color: var(--teal); background: #edf8f4; border-color: #a8cec4; }
-  .level-badge.push { color: var(--blue); background: #eef4ff; border-color: #b6c8e8; }
-
-  .plan-grid {
+  .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 14px;
+    margin-top: 18px;
   }
 
-  .task {
+  .card {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 10px;
-    align-items: start;
-    border: 1px solid #eee6d8;
-    background: #fff;
+    gap: 12px;
+    min-height: 230px;
+    border: 1px solid var(--line);
     border-radius: 8px;
-    padding: 12px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
   }
 
-  .task input {
-    width: 22px;
-    height: 22px;
-    margin: 1px 0 0;
-    accent-color: var(--teal);
+  .card:hover {
+    border-color: var(--teal);
+    transform: translateY(-1px);
   }
 
-  .task-title {
-    margin: 0;
-    font-weight: 850;
+  .card:focus-visible {
+    outline: 3px solid rgba(40, 114, 113, .25);
+    outline-offset: 3px;
   }
 
-  .task-meta {
-    margin-top: 3px;
-    color: var(--muted);
-    font-size: 12px;
-  }
-
-  .task.done .task-title {
-    text-decoration: line-through;
-    color: var(--muted);
-  }
-
-  .score-strip {
+  .icon {
+    width: 46px;
+    height: 46px;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
-    margin-bottom: 16px;
-  }
-
-  .score {
-    border: 1px solid #eee6d8;
+    place-items: center;
     border-radius: 8px;
-    padding: 10px;
-    background: #fffaf1;
-  }
-
-  .score span {
-    display: block;
-    color: var(--muted);
-    font-size: 12px;
-  }
-
-  .score strong {
-    display: block;
-    margin-top: 2px;
+    color: #fff;
+    font-weight: 950;
     font-size: 22px;
   }
 
-  .side-note {
+  .icon.teal { background: var(--teal); }
+  .icon.coral { background: var(--coral); }
+  .icon.blue { background: var(--blue); }
+
+  .card h2 {
+    margin: 0;
+    font-size: 24px;
+    letter-spacing: 0;
+  }
+
+  .card p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .path {
+    align-self: end;
+    display: inline-flex;
+    width: fit-content;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fffaf1;
+    padding: 6px 10px;
+    color: #3d372f;
+    font-size: 12px;
+    font-weight: 850;
+  }
+
+  .wide {
+    grid-column: 1 / -1;
+    min-height: 160px;
+  }
+
+  .note {
+    margin-top: 14px;
     border: 1px solid #e6d2a9;
     background: #fff8e8;
     color: #594223;
@@ -419,852 +146,53 @@
     font-size: 13px;
   }
 
-  .today-mini {
-    display: grid;
-    gap: 8px;
-    margin-top: 12px;
-  }
-
-  .name-history {
-    margin-top: 14px;
-    display: grid;
-    gap: 8px;
-  }
-
-  .name-record {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 10px;
-    align-items: center;
-    border: 1px solid #eee6d8;
-    background: #fff;
-    border-radius: 8px;
-    padding: 10px;
-  }
-
-  .name-record-title {
-    font-size: 13px;
-    font-weight: 900;
-  }
-
-  .name-record-meta {
-    margin-top: 2px;
-    color: var(--muted);
-    font-size: 12px;
-  }
-
-  .mini-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    border-bottom: 1px solid #eee6d8;
-    padding: 8px 0;
-    font-size: 13px;
-  }
-
-  .mini-row:last-child { border-bottom: 0; }
-  .mini-row strong { color: var(--teal); }
-
-  .hist-tools {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 12px;
-  }
-
-  .chips {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .chip {
-    min-height: 34px;
-    border: 1px solid var(--line);
-    background: #fff;
-    border-radius: 999px;
-    padding: 0 12px;
-    font-size: 13px;
-    font-weight: 850;
-  }
-
-  .chip.active {
-    background: var(--deep);
-    border-color: var(--deep);
-    color: #fff;
-  }
-
-  .hist-list {
-    display: grid;
-    gap: 8px;
-  }
-
-  .hist-item {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 12px;
-    align-items: center;
-    border: 1px solid #eee6d8;
-    background: #fff;
-    border-radius: 8px;
-    padding: 12px;
-  }
-
-  .hist-title {
-    font-weight: 900;
-  }
-
-  .hist-item time {
-    display: block;
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 2px;
-  }
-
-  .hist-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-    margin-top: 8px;
-    color: var(--muted);
-    font-size: 12px;
-  }
-
-  .bar-list {
-    display: grid;
-    gap: 10px;
-  }
-
-  .bar-row {
-    display: grid;
-    grid-template-columns: 94px minmax(0, 1fr) 66px;
-    gap: 10px;
-    align-items: center;
-    font-size: 13px;
-  }
-
-  .bar-track {
-    height: 12px;
-    border-radius: 999px;
-    background: #ece4d8;
-    overflow: hidden;
-  }
-
-  .bar-fill {
-    height: 100%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, var(--teal), var(--green));
-  }
-
-  .empty {
-    border: 1px dashed #cfc6b8;
-    border-radius: 8px;
-    background: #fffaf1;
-    color: var(--muted);
-    text-align: center;
-    padding: 24px;
-  }
-
-  @media (max-width: 880px) {
-    .top, .layout { grid-template-columns: 1fr; }
-    .streak { width: 100%; }
-    .plan-grid { grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 560px) {
-    .wrap { padding: 12px; }
-    .panel { padding: 14px; }
-    .name-row, .template-row { grid-template-columns: 1fr; }
-    .choice-grid, .score-strip { grid-template-columns: 1fr; }
-    .result-hero, .hist-item, .bar-row { grid-template-columns: 1fr; }
+  @media (max-width: 720px) {
+    .wrap { padding: 16px; }
+    .grid { grid-template-columns: 1fr; }
+    .wide { grid-column: auto; }
   }
 </style>
 </head>
 <body>
 <main class="wrap">
-  <header class="top">
-    <div>
-      <h1>꾸준함 기록지</h1>
-      <p class="sub">오늘 컨디션에 맞춰 운동과 학습 계획을 작게 만들고, 완료한 만큼 기록합니다.</p>
-    </div>
-    <div class="streak">
-      <span>현재 연속 기록</span>
-      <strong id="streak-count">0일</strong>
-    </div>
+  <header>
+    <p class="eyebrow">dailyyan/vue</p>
+    <h1>기록 도구 모음</h1>
+    <p class="lead">오늘의 컨디션, 꾸준함 계획, 공부 기록으로 바로 이동할 수 있는 시작 화면입니다.</p>
   </header>
 
-  <nav class="tabs" aria-label="화면 전환">
-    <button class="tab active" type="button" data-page="make">오늘 계획</button>
-    <button class="tab" type="button" data-page="history">이력</button>
-    <button class="tab" type="button" data-page="stats">흐름</button>
-  </nav>
-
-  <section class="page active" id="page-make">
-    <div class="layout">
-      <section class="panel">
-        <div class="panel-head">
-          <h2>컨디션 입력</h2>
-          <button class="btn light" type="button" id="reset-btn">초기화</button>
-        </div>
-
-        <div class="name-row" id="name-row">
-          <input id="name-input" type="text" autocomplete="name" placeholder="이름을 입력하세요" />
-          <button class="btn teal" type="button" id="name-confirm" disabled>확인</button>
-        </div>
-        <div class="hello" id="hello"></div>
-
-        <form class="form-area" id="plan-form">
-          <div id="metrics"></div>
-
-          <div class="metric">
-            <div class="metric-head">
-              <div>
-                <p class="metric-title">오늘의 목표 방향</p>
-                <p class="metric-desc">둘 다 해도 좋지만, 힘든 날에는 한쪽만 잡아도 성공입니다.</p>
-              </div>
-            </div>
-            <div class="choice-grid" id="focus-choices">
-              <button class="choice active" type="button" data-focus="both"><strong>균형</strong><span>운동 + 학습</span></button>
-              <button class="choice" type="button" data-focus="exercise"><strong>운동 중심</strong><span>몸부터 깨우기</span></button>
-              <button class="choice" type="button" data-focus="study"><strong>학습 중심</strong><span>머리부터 켜기</span></button>
-            </div>
-          </div>
-
-          <div class="template-row">
-            <div>
-              <label class="field-label" for="exercise-template">운동 후보</label>
-              <textarea id="exercise-template">5분 산책
-스쿼트 10회
-스트레칭 5분
-물 마시고 계단 1층 오르기</textarea>
-            </div>
-            <div>
-              <label class="field-label" for="study-template">학습 후보</label>
-              <textarea id="study-template">책 2쪽 읽기
-강의 5분 듣기
-단어 5개 보기
-노트 3줄 정리</textarea>
-            </div>
-          </div>
-
-          <button class="btn primary" type="submit" style="width:100%;margin-top:14px;">오늘 계획 만들기</button>
-        </form>
-      </section>
-
-      <aside class="panel">
-        <div class="panel-head">
-          <h2>오늘 기준</h2>
-        </div>
-        <div class="side-note">
-          성공 기준은 “많이 하기”가 아니라 “끊기지 않기”입니다. 가장 힘든 날의 최소 단위는 1개로 고정됩니다.
-        </div>
-        <div class="today-mini" id="live-summary"></div>
-        <div class="name-history" id="name-history"></div>
-      </aside>
-    </div>
-  </section>
-
-  <section class="page" id="page-result">
-    <section class="panel" id="result-panel"></section>
-  </section>
-
-  <section class="page" id="page-history">
-    <section class="panel">
-      <div class="panel-head">
-        <h2>저장된 기록</h2>
+  <section class="grid" aria-label="사용 가능한 페이지">
+    <a class="card" href="./consistency-planner.html">
+      <span class="icon teal">✓</span>
+      <div>
+        <h2>꾸준함 기록지</h2>
+        <p>오늘 컨디션에 맞춰 운동 또는 학습 계획을 작게 만들고 완료 이력을 저장합니다.</p>
       </div>
-      <div class="hist-tools">
-        <div class="chips" id="history-chips"></div>
-        <div>
-          <button class="btn light" id="export-btn" type="button">JSON 내보내기</button>
-          <button class="btn warn" id="clear-btn" type="button">이력 삭제</button>
-        </div>
+      <span class="path">consistency-planner.html</span>
+    </a>
+
+    <a class="card" href="./daily-mood-check.html">
+      <span class="icon coral">＋</span>
+      <div>
+        <h2>일일 기분 체크</h2>
+        <p>조울증 관련 기분 상태를 기록하고, 이름 확인 후 저장 이력과 흐름을 조회합니다.</p>
       </div>
-      <div class="hist-list" id="history-list"></div>
-    </section>
+      <span class="path">daily-mood-check.html</span>
+    </a>
+
+    <a class="card wide" href="./challenge_1.html">
+      <span class="icon blue">1</span>
+      <div>
+        <h2>Vue 공부 기록</h2>
+        <p>기존에 저장된 Vue 연습 페이지입니다.</p>
+      </div>
+      <span class="path">challenge_1.html</span>
+    </a>
   </section>
 
-  <section class="page" id="page-stats">
-    <section class="panel">
-      <div class="panel-head">
-        <h2>꾸준함 흐름</h2>
-      </div>
-      <div class="chips" id="stats-chips" style="margin-bottom:12px;"></div>
-      <div id="stats-body"></div>
-    </section>
-  </section>
+  <div class="note">
+    기록 데이터는 각 브라우저의 localStorage에 저장됩니다. 같은 기기와 같은 브라우저에서 다시 열면 기존 기록을 확인할 수 있습니다.
+  </div>
 </main>
-
-<script>
-(() => {
-  const STORAGE_KEY = 'consistencyPlannerRecordsV1';
-  const metrics = [
-    { id: 'energy', title: '몸 에너지', desc: '0 = 거의 없음 · 10 = 아주 좋음', low: '바닥', high: '좋음', value: 4 },
-    { id: 'mind', title: '마음 여유', desc: '0 = 버거움 · 10 = 여유 있음', low: '버거움', high: '여유', value: 4 },
-    { id: 'time', title: '쓸 수 있는 시간', desc: '0 = 5분 이하 · 10 = 60분 이상', low: '5분', high: '60분+', value: 4 },
-    { id: 'burden', title: '오늘의 부담감', desc: '0 = 낮음 · 10 = 매우 높음', low: '낮음', high: '높음', value: 5 }
-  ];
-
-  const levelText = {
-    tiny: {
-      label: '최소 유지일',
-      badge: 'tiny',
-      message: '오늘은 딱 1개만 해도 성공입니다. 작게 해도 끊기지 않는 게 이깁니다.'
-    },
-    light: {
-      label: '가볍게 유지일',
-      badge: 'light',
-      message: '무리하지 않고 2개 정도만 잡습니다. 끝내고 아쉬우면 보너스로 1개만 더합니다.'
-    },
-    steady: {
-      label: '보통 진행일',
-      badge: 'steady',
-      message: '기본 루틴을 작게 나눠 3~4개까지 진행할 수 있는 날입니다.'
-    },
-    push: {
-      label: '확장 가능일',
-      badge: 'push',
-      message: '컨디션이 괜찮습니다. 그래도 계획은 과하게 늘리지 않고 완료 가능한 범위로 둡니다.'
-    }
-  };
-
-  let records = loadRecords();
-  let state = {
-    user: '',
-    focus: 'both',
-    values: Object.fromEntries(metrics.map((m) => [m.id, m.value]))
-  };
-  let historyFilter = 'all';
-  let statsFilter = 'all';
-
-  const $ = (id) => document.getElementById(id);
-
-  function loadRecords() {
-    try {
-      const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  }
-
-  function saveRecords() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-  }
-
-  function init() {
-    renderMetrics();
-    renderLiveSummary();
-    renderNameHistory();
-    updateStreak();
-    bindEvents();
-    renderHistory();
-    renderStats();
-  }
-
-  function bindEvents() {
-    document.querySelectorAll('.tab').forEach((tab) => {
-      tab.addEventListener('click', () => showPage(tab.dataset.page));
-    });
-
-    $('name-input').addEventListener('input', () => {
-      $('name-confirm').disabled = !$('name-input').value.trim();
-    });
-
-    $('name-input').addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' && $('name-input').value.trim()) {
-        event.preventDefault();
-        confirmName();
-      }
-    });
-
-    $('name-confirm').addEventListener('click', confirmName);
-    $('reset-btn').addEventListener('click', resetForm);
-    $('plan-form').addEventListener('submit', makePlan);
-    $('export-btn').addEventListener('click', exportJson);
-    $('clear-btn').addEventListener('click', clearHistory);
-
-    document.querySelectorAll('.choice').forEach((button) => {
-      button.addEventListener('click', () => {
-        state.focus = button.dataset.focus;
-        document.querySelectorAll('.choice').forEach((item) => item.classList.toggle('active', item === button));
-        renderLiveSummary();
-      });
-    });
-  }
-
-  function renderMetrics() {
-    $('metrics').innerHTML = metrics.map((metric) => `
-      <section class="metric">
-        <div class="metric-head">
-          <div>
-            <p class="metric-title">${metric.title}</p>
-            <p class="metric-desc">${metric.desc}</p>
-          </div>
-          <div class="value-pill" id="value-${metric.id}">${state.values[metric.id]}점</div>
-        </div>
-        <input type="range" min="0" max="10" step="1" value="${state.values[metric.id]}" data-metric="${metric.id}" aria-label="${metric.title}" />
-        <div class="range-labels"><span>${metric.low}</span><span>${metric.high}</span></div>
-      </section>
-    `).join('');
-
-    document.querySelectorAll('[data-metric]').forEach((range) => {
-      range.addEventListener('input', () => {
-        state.values[range.dataset.metric] = Number(range.value);
-        $(`value-${range.dataset.metric}`).textContent = `${range.value}점`;
-        renderLiveSummary();
-      });
-    });
-  }
-
-  function confirmName() {
-    const name = $('name-input').value.trim();
-    if (!name) {
-      alert('이름을 입력해 주세요.');
-      return;
-    }
-    state.user = name;
-    historyFilter = name;
-    statsFilter = name;
-    $('name-row').style.display = 'none';
-    $('hello').textContent = `${name}님, 오늘 할 수 있는 만큼만 계획해볼게요.`;
-    $('hello').classList.add('show');
-    $('plan-form').classList.add('show');
-    renderLiveSummary();
-    renderNameHistory();
-    renderHistory();
-    renderStats();
-  }
-
-  function resetForm() {
-    state = {
-      user: '',
-      focus: 'both',
-      values: Object.fromEntries(metrics.map((m) => [m.id, m.value]))
-    };
-    $('name-input').value = '';
-    $('name-confirm').disabled = true;
-    $('name-row').style.display = 'grid';
-    $('hello').classList.remove('show');
-    $('plan-form').classList.remove('show');
-    document.querySelectorAll('.choice').forEach((button) => button.classList.toggle('active', button.dataset.focus === 'both'));
-    renderMetrics();
-    renderLiveSummary();
-    renderNameHistory();
-    showPage('make');
-  }
-
-  function renderLiveSummary() {
-    const calc = calculateCapacity(state.values);
-    const focusLabel = { both: '운동 + 학습', exercise: '운동 중심', study: '학습 중심' }[state.focus];
-    $('live-summary').innerHTML = `
-      <div class="mini-row"><span>이름</span><strong>${state.user ? escapeHtml(state.user) : '-'}</strong></div>
-      <div class="mini-row"><span>몸 에너지</span><strong>${state.values.energy}점</strong></div>
-      <div class="mini-row"><span>마음 여유</span><strong>${state.values.mind}점</strong></div>
-      <div class="mini-row"><span>시간</span><strong>${state.values.time}점</strong></div>
-      <div class="mini-row"><span>부담감</span><strong>${state.values.burden}점</strong></div>
-      <div class="mini-row"><span>목표 방향</span><strong>${focusLabel}</strong></div>
-      <div class="mini-row"><span>추천 개수</span><strong>${calc.count}개</strong></div>
-    `;
-  }
-
-  function renderNameHistory() {
-    const el = $('name-history');
-    if (!state.user) {
-      el.innerHTML = '<div class="empty">이름을 확인하면 그 이름으로 저장된 과거 기록이 여기에 전부 표시됩니다.</div>';
-      return;
-    }
-
-    const list = records
-      .filter((record) => record.user === state.user)
-      .slice()
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    if (!list.length) {
-      el.innerHTML = '<div class="empty">아직 이 이름으로 저장된 기록이 없어요. 오늘 첫 기록을 만들면 여기에 남습니다.</div>';
-      return;
-    }
-
-    el.innerHTML = `
-      <div class="field-label">${escapeHtml(state.user)}님의 과거 기록 ${list.length}개</div>
-      ${list.map((record) => {
-        const done = record.tasks.filter((task) => task.done).length;
-        const total = record.tasks.length;
-        const info = levelText[record.capacity.level];
-        return `
-          <article class="name-record">
-            <div>
-              <div class="name-record-title">${info.label}</div>
-              <div class="name-record-meta">${formatDate(record.createdAt)} · ${done}/${total}개 완료</div>
-            </div>
-            <button class="btn light" type="button" data-open-name-record="${record.id}">열기</button>
-          </article>
-        `;
-      }).join('')}
-    `;
-
-    el.querySelectorAll('[data-open-name-record]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const record = records.find((item) => item.id === button.dataset.openNameRecord);
-        if (record) {
-          renderResult(record, false);
-          showPage('result');
-        }
-      });
-    });
-  }
-
-  function calculateCapacity(values) {
-    const positive = values.energy + values.mind + values.time;
-    const score = positive - values.burden * 1.25;
-    let level = 'tiny';
-    let count = 1;
-
-    if (score >= 21) {
-      level = 'push';
-      count = 5;
-    } else if (score >= 14) {
-      level = 'steady';
-      count = 4;
-    } else if (score >= 7) {
-      level = 'light';
-      count = 2;
-    }
-
-    if (values.energy <= 1 || values.mind <= 1 || values.time <= 1 || values.burden >= 9) {
-      level = 'tiny';
-      count = 1;
-    }
-
-    return { score: Math.round(score * 10) / 10, level, count };
-  }
-
-  function makePlan(event) {
-    event.preventDefault();
-    if (!state.user) {
-      alert('이름을 먼저 확인해 주세요.');
-      return;
-    }
-
-    const capacity = calculateCapacity(state.values);
-    const tasks = buildTasks(capacity.count, state.focus);
-    const record = {
-      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      user: state.user,
-      createdAt: new Date().toISOString(),
-      values: { ...state.values },
-      focus: state.focus,
-      capacity,
-      tasks
-    };
-
-    records.push(record);
-    saveRecords();
-    renderResult(record, true);
-    renderNameHistory();
-    renderHistory();
-    renderStats();
-    updateStreak();
-    showPage('result');
-  }
-
-  function buildTasks(count, focus) {
-    const exercise = linesFrom('exercise-template');
-    const study = linesFrom('study-template');
-    const tasks = [];
-    let exerciseCount = 0;
-    let studyCount = 0;
-
-    if (count === 1) {
-      if (focus === 'study') studyCount = 1;
-      else exerciseCount = 1;
-    } else if (focus === 'exercise') {
-      exerciseCount = Math.ceil(count * .7);
-      studyCount = count - exerciseCount;
-    } else if (focus === 'study') {
-      studyCount = Math.ceil(count * .7);
-      exerciseCount = count - studyCount;
-    } else {
-      exerciseCount = Math.ceil(count / 2);
-      studyCount = count - exerciseCount;
-    }
-
-    for (let i = 0; i < exerciseCount; i += 1) {
-      tasks.push({ type: '운동', title: exercise[i % exercise.length], done: false });
-    }
-    for (let i = 0; i < studyCount; i += 1) {
-      tasks.push({ type: '학습', title: study[i % study.length], done: false });
-    }
-
-    return tasks.slice(0, count);
-  }
-
-  function linesFrom(id) {
-    const lines = $(id).value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-    if (lines.length) return lines;
-    return id === 'exercise-template' ? ['5분 산책'] : ['책 2쪽 읽기'];
-  }
-
-  function renderResult(record, justMade) {
-    const info = levelText[record.capacity.level];
-    const doneCount = record.tasks.filter((task) => task.done).length;
-    const total = record.tasks.length;
-    const percent = total ? Math.round(doneCount / total * 100) : 0;
-
-    $('result-panel').innerHTML = `
-      <div class="result-hero">
-        <div>
-          <p class="sub">${escapeHtml(record.user)} · ${formatDate(record.createdAt)}${justMade ? ' · 저장 완료' : ''}</p>
-          <h2 class="level">${info.label}</h2>
-          <p class="sub">${info.message}</p>
-        </div>
-        <div class="level-badge ${info.badge}">${record.capacity.count}개 계획</div>
-      </div>
-
-      <div class="score-strip">
-        <div class="score"><span>몸 에너지</span><strong>${record.values.energy}</strong></div>
-        <div class="score"><span>마음 여유</span><strong>${record.values.mind}</strong></div>
-        <div class="score"><span>시간</span><strong>${record.values.time}</strong></div>
-        <div class="score"><span>부담감</span><strong>${record.values.burden}</strong></div>
-      </div>
-
-      <div class="side-note" style="margin-bottom:12px;">
-        완료율 ${percent}% · ${doneCount}/${total}개 완료. 최소 유지일에는 1개만 체크되어도 성공으로 기록됩니다.
-      </div>
-
-      <div class="plan-grid" id="task-list">
-        ${record.tasks.map((task, index) => taskHtml(task, index)).join('')}
-      </div>
-
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;">
-        <button class="btn primary" type="button" id="save-progress">완료 상태 저장</button>
-        <button class="btn light" type="button" id="new-plan">새 계획</button>
-        <button class="btn light" type="button" id="go-history">이력 보기</button>
-      </div>
-    `;
-
-    $('task-list').querySelectorAll('[data-task]').forEach((checkbox) => {
-      checkbox.addEventListener('change', () => {
-        const index = Number(checkbox.dataset.task);
-        record.tasks[index].done = checkbox.checked;
-        const item = checkbox.closest('.task');
-        item.classList.toggle('done', checkbox.checked);
-      });
-    });
-
-    $('save-progress').addEventListener('click', () => {
-      const index = records.findIndex((item) => item.id === record.id);
-      if (index >= 0) {
-        records[index] = record;
-        saveRecords();
-        renderResult(record, false);
-        renderNameHistory();
-        renderHistory();
-        renderStats();
-        updateStreak();
-      }
-    });
-    $('new-plan').addEventListener('click', resetForm);
-    $('go-history').addEventListener('click', () => showPage('history'));
-  }
-
-  function taskHtml(task, index) {
-    return `
-      <label class="task ${task.done ? 'done' : ''}">
-        <input type="checkbox" data-task="${index}" ${task.done ? 'checked' : ''} />
-        <span>
-          <p class="task-title">${escapeHtml(task.title)}</p>
-          <span class="task-meta">${task.type}</span>
-        </span>
-      </label>
-    `;
-  }
-
-  function showPage(page) {
-    document.querySelectorAll('.tab').forEach((tab) => {
-      tab.classList.toggle('active', tab.dataset.page === page);
-    });
-    document.querySelectorAll('.page').forEach((section) => section.classList.remove('active'));
-    $(`page-${page}`).classList.add('active');
-    if (page === 'history') renderHistory();
-    if (page === 'stats') renderStats();
-  }
-
-  function users() {
-    return [...new Set(records.map((record) => record.user))].sort((a, b) => a.localeCompare(b, 'ko'));
-  }
-
-  function renderChips(containerId, active, onPick) {
-    const chipData = [{ key: 'all', label: '전체' }, ...users().map((user) => ({ key: user, label: user }))];
-    $(containerId).innerHTML = chipData.map((chip) => `
-      <button class="chip ${chip.key === active ? 'active' : ''}" type="button" data-filter="${escapeAttr(chip.key)}">${escapeHtml(chip.label)}</button>
-    `).join('');
-    $(containerId).querySelectorAll('button').forEach((button) => {
-      button.addEventListener('click', () => onPick(button.dataset.filter));
-    });
-  }
-
-  function filteredRecords(filter) {
-    return records
-      .filter((record) => filter === 'all' || record.user === filter)
-      .slice()
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  }
-
-  function renderHistory() {
-    renderChips('history-chips', historyFilter, (filter) => {
-      historyFilter = filter;
-      renderHistory();
-    });
-
-    const list = filteredRecords(historyFilter);
-    if (!list.length) {
-      $('history-list').innerHTML = '<div class="empty">아직 기록이 없어요. 오늘 계획을 만들면 여기에 남습니다.</div>';
-      return;
-    }
-
-    $('history-list').innerHTML = list.map((record) => {
-      const done = record.tasks.filter((task) => task.done).length;
-      const total = record.tasks.length;
-      const info = levelText[record.capacity.level];
-      return `
-        <article class="hist-item">
-          <div>
-            <div class="hist-title">${escapeHtml(record.user)} · ${info.label}</div>
-            <time>${formatDate(record.createdAt)}</time>
-            <div class="hist-meta">
-              <span>계획 ${total}개</span>
-              <span>완료 ${done}개</span>
-              <span>완료율 ${total ? Math.round(done / total * 100) : 0}%</span>
-            </div>
-          </div>
-          <button class="btn light" type="button" data-open="${record.id}">열기</button>
-        </article>
-      `;
-    }).join('');
-
-    $('history-list').querySelectorAll('[data-open]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const record = records.find((item) => item.id === button.dataset.open);
-        if (record) {
-          renderResult(record, false);
-          showPage('result');
-        }
-      });
-    });
-  }
-
-  function renderStats() {
-    renderChips('stats-chips', statsFilter, (filter) => {
-      statsFilter = filter;
-      renderStats();
-    });
-
-    const list = filteredRecords(statsFilter).slice().reverse().slice(-14);
-    if (!list.length) {
-      $('stats-body').innerHTML = '<div class="empty">흐름을 볼 기록이 아직 없어요.</div>';
-      return;
-    }
-
-    const totalPlans = list.reduce((sum, record) => sum + record.tasks.length, 0);
-    const totalDone = list.reduce((sum, record) => sum + record.tasks.filter((task) => task.done).length, 0);
-    const avg = totalPlans ? Math.round(totalDone / totalPlans * 100) : 0;
-
-    $('stats-body').innerHTML = `
-      <div class="score-strip">
-        <div class="score"><span>최근 기록</span><strong>${list.length}</strong></div>
-        <div class="score"><span>계획 합계</span><strong>${totalPlans}</strong></div>
-        <div class="score"><span>완료 합계</span><strong>${totalDone}</strong></div>
-        <div class="score"><span>평균 완료율</span><strong>${avg}%</strong></div>
-      </div>
-      <div class="bar-list">
-        ${list.map((record) => {
-          const done = record.tasks.filter((task) => task.done).length;
-          const total = record.tasks.length;
-          const pct = total ? Math.round(done / total * 100) : 0;
-          return `
-            <div class="bar-row">
-              <span>${shortDate(record.createdAt)}</span>
-              <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
-              <strong>${done}/${total}</strong>
-            </div>
-          `;
-        }).join('')}
-      </div>
-    `;
-  }
-
-  function updateStreak() {
-    const days = [...new Set(records
-      .filter((record) => record.tasks.some((task) => task.done))
-      .map((record) => localDateKey(record.createdAt)))].sort().reverse();
-
-    let streak = 0;
-    const cursor = new Date();
-    for (let i = 0; i < 365; i += 1) {
-      const key = localDateKey(cursor.toISOString());
-      if (days.includes(key)) {
-        streak += 1;
-        cursor.setDate(cursor.getDate() - 1);
-      } else if (i === 0) {
-        cursor.setDate(cursor.getDate() - 1);
-      } else {
-        break;
-      }
-    }
-    $('streak-count').textContent = `${streak}일`;
-  }
-
-  function exportJson() {
-    const blob = new Blob([JSON.stringify(records, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `consistency-records-${new Date().toISOString().slice(0, 10)}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  function clearHistory() {
-    if (!records.length) return;
-    if (!confirm('저장된 꾸준함 기록을 모두 삭제할까요?')) return;
-    records = [];
-    saveRecords();
-    renderNameHistory();
-    renderHistory();
-    renderStats();
-    updateStreak();
-  }
-
-  function formatDate(iso) {
-    return new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(iso));
-  }
-
-  function shortDate(iso) {
-    const date = new Date(iso);
-    return `${date.getMonth() + 1}/${date.getDate()}`;
-  }
-
-  function localDateKey(iso) {
-    const date = new Date(iso);
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-  }
-
-  function escapeHtml(value) {
-    return String(value).replace(/[&<>"']/g, (char) => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[char]));
-  }
-
-  function escapeAttr(value) {
-    return escapeHtml(value).replace(/`/g, '&#96;');
-  }
-
-  init();
-})();
-</script>
 </body>
 </html>

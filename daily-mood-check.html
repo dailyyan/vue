@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>일일 기분 체크</title>
+<style>
+  :root {
+    --bg: #f7f4ee;
+    --panel: #fffdf8;
+    --ink: #211f1c;
+    --muted: #706a61;
+    --line: #ded7ca;
+    --accent: #166b63;
+    --accent-2: #d1812f;
+    --blue: #315f9f;
+    --red: #a33a3a;
+    --green: #2c7a43;
+    --focus: 0 0 0 3px rgba(22, 107, 99, .18);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR", sans-serif;
+    line-height: 1.45;
+  }
+
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+
+  .wrap {
+    width: min(980px, 100%);
+    margin: 0 auto;
+    padding: 18px;
+  }
+
+  .app-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 10px 0 18px;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(26px, 4vw, 42px);
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .subtitle {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .tab {
+    border: 1px solid var(--line);
+    background: #fffaf0;
+    color: #3f3930;
+    border-radius: 8px;
+    min-height: 40px;
+    padding: 0 15px;
+    font-weight: 750;
+  }
+
+  .tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 310px;
+    gap: 14px;
+    align-items: start;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+  }
+
+  .panel-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .panel-title h2 {
+    margin: 0;
+    font-size: 18px;
+    letter-spacing: 0;
+  }
+
+  .name-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .name-row input {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #cfc7b9;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    padding: 0 12px;
+    outline: none;
+  }
+
+  .name-row input:focus { box-shadow: var(--focus); border-color: var(--accent); }
+
+  .btn {
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+    border-radius: 8px;
+    min-height: 40px;
+    padding: 0 14px;
+    font-weight: 750;
+  }
+
+  .btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .btn.warn {
+    background: #fff7ef;
+    border-color: #dfbd98;
+    color: #6b3b12;
+  }
+
+  .btn:disabled {
+    opacity: .45;
+    cursor: default;
+  }
+
+  .status {
+    display: none;
+    border: 1px solid #b9d4c9;
+    background: #f1fbf6;
+    color: #1d5b3c;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+
+  .status.show { display: block; }
+
+  .questionnaire { display: none; }
+  .questionnaire.show { display: block; }
+
+  .q {
+    border-top: 1px solid #eee6d8;
+    padding: 16px 0;
+  }
+
+  .q:first-child { border-top: 0; padding-top: 0; }
+
+  .q-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .q-title {
+    margin: 0;
+    font-weight: 800;
+    color: #2f2b25;
+  }
+
+  .q-desc {
+    margin: 3px 0 0;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .picked {
+    flex: 0 0 auto;
+    min-width: 76px;
+    text-align: center;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fffaf0;
+    padding: 6px 8px;
+    font-weight: 800;
+    color: var(--muted);
+  }
+
+  .picked.has-value {
+    background: #e9f6f2;
+    border-color: #9fcac0;
+    color: var(--accent);
+  }
+
+  .scale {
+    display: grid;
+    grid-template-columns: repeat(11, minmax(34px, 1fr));
+    gap: 6px;
+  }
+
+  .scale button {
+    min-width: 0;
+    aspect-ratio: 1;
+    border: 1px solid #cfc7b9;
+    background: #fff;
+    color: #3b352d;
+    border-radius: 999px;
+    font-weight: 800;
+  }
+
+  .scale button:hover { border-color: var(--accent); }
+  .scale button.selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: var(--focus);
+  }
+
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 6px;
+  }
+
+  .summary-list {
+    display: grid;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .mini-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    border-bottom: 1px solid #eee6d8;
+    padding: 7px 0;
+    font-size: 13px;
+  }
+
+  .mini-row:last-child { border-bottom: 0; }
+  .mini-row strong { color: var(--accent); }
+
+  .result-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: center;
+    border-bottom: 1px solid #eee6d8;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+
+  .state {
+    margin: 0;
+    font-size: clamp(28px, 5vw, 46px);
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .badge {
+    border-radius: 999px;
+    padding: 8px 13px;
+    font-weight: 850;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  .badge.stable { background: #eaf8ef; color: var(--green); border-color: #a8d1b4; }
+  .badge.mania { background: #fff1dc; color: #8c4d05; border-color: #e3bf87; }
+  .badge.depression { background: #eaf1fb; color: var(--blue); border-color: #adc3e0; }
+  .badge.anxiety { background: #fff0f0; color: var(--red); border-color: #e4b5b5; }
+  .badge.mixed { background: #f4effb; color: #68419a; border-color: #c7b1df; }
+  .badge.risk { background: #fff2f2; color: #8a1f1f; border-color: #db9a9a; }
+
+  .score-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .score {
+    border: 1px solid #eee6d8;
+    border-radius: 8px;
+    padding: 10px;
+    background: #fffaf0;
+  }
+
+  .score span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .score strong {
+    display: block;
+    font-size: 22px;
+    margin-top: 2px;
+  }
+
+  .subbox {
+    border: 1px solid #eee6d8;
+    border-radius: 8px;
+    padding: 14px;
+    background: #fff;
+  }
+
+  .solutions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .solution {
+    border: 1px solid #eee6d8;
+    border-radius: 8px;
+    padding: 12px;
+    background: #fff;
+  }
+
+  .solution h3 {
+    margin: 0 0 8px;
+    font-size: 14px;
+  }
+
+  .solution ul {
+    margin: 0;
+    padding-left: 18px;
+    color: #39342d;
+    font-size: 13px;
+  }
+
+  .solution li + li { margin-top: 6px; }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .history-tools {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+
+  .chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .chip {
+    min-height: 34px;
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 999px;
+    padding: 0 12px;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .chip.active {
+    background: #263a47;
+    border-color: #263a47;
+    color: #fff;
+  }
+
+  .hist-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .hist-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: center;
+    border: 1px solid #eee6d8;
+    background: #fff;
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  .hist-item time {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  .hist-title {
+    font-weight: 850;
+  }
+
+  .hist-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .empty {
+    border: 1px dashed #cfc7b9;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+    background: #fffaf0;
+  }
+
+  .notice {
+    border: 1px solid #dfc8a9;
+    background: #fff9ed;
+    color: #5c4426;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .notice strong { color: #6b2f20; }
+
+  canvas {
+    width: 100% !important;
+    height: 260px !important;
+  }
+
+  @media (max-width: 820px) {
+    .app-head { display: block; }
+    .grid { grid-template-columns: 1fr; }
+    .solutions { grid-template-columns: 1fr; }
+    .score-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 520px) {
+    .wrap { padding: 12px; }
+    .panel { padding: 14px; }
+    .name-row { grid-template-columns: 1fr; }
+    .scale { grid-template-columns: repeat(6, minmax(34px, 1fr)); }
+    .result-hero { grid-template-columns: 1fr; }
+    .score-grid { grid-template-columns: 1fr; }
+    .hist-item { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="app-head">
+    <div>
+      <h1>일일 기분 체크</h1>
+      <p class="subtitle">오늘의 상태를 빠르게 기록하고, 선택한 번호와 결과 이력을 바로 확인합니다.</p>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="화면 전환">
+    <button class="tab active" data-tab="check">체크</button>
+    <button class="tab" data-tab="history">이력</button>
+    <button class="tab" data-tab="trend">흐름</button>
+  </nav>
+
+  <section class="page active" id="page-check">
+    <div class="grid">
+      <section class="panel" aria-labelledby="check-title">
+        <div class="panel-title">
+          <h2 id="check-title">오늘 상태 입력</h2>
+          <button class="btn" id="reset-form" type="button">초기화</button>
+        </div>
+
+        <div class="name-row" id="name-row">
+          <input id="name-input" type="text" autocomplete="name" placeholder="이름을 입력하세요" />
+          <button class="btn primary" id="name-confirm" type="button" disabled>확인</button>
+        </div>
+        <div class="status" id="name-status"></div>
+
+        <form class="questionnaire" id="questionnaire">
+          <div id="questions"></div>
+          <button class="btn primary" id="submit-check" type="submit" style="width:100%;margin-top:14px;">결과 보기 및 저장</button>
+        </form>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-title">
+          <h2>선택 요약</h2>
+        </div>
+        <div class="notice" style="margin-bottom:12px;">
+          이 체크는 진단이 아니라 매일의 변화 관찰용입니다. 갑작스러운 악화, 자해 생각, 수면 급감이 있으면 전문 도움을 우선하세요.
+        </div>
+        <div class="summary-list" id="answer-summary"></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="page" id="page-result" aria-live="polite">
+    <section class="panel" id="result-panel"></section>
+  </section>
+
+  <section class="page" id="page-history">
+    <section class="panel">
+      <div class="panel-title">
+        <h2>저장된 검사 이력</h2>
+      </div>
+      <div class="name-row">
+        <input id="history-name-input" type="text" autocomplete="name" placeholder="기록할 때 입력한 이름을 정확히 입력하세요" />
+        <button class="btn primary" id="history-name-confirm" type="button">조회</button>
+      </div>
+      <div class="status" id="history-status"></div>
+      <div class="history-tools">
+        <div class="chips" id="history-chips"></div>
+        <div>
+          <button class="btn" id="export-json" type="button">조회 이력 JSON</button>
+          <button class="btn warn" id="clear-history" type="button">조회 이력 삭제</button>
+        </div>
+      </div>
+      <div class="hist-list" id="history-list"></div>
+    </section>
+  </section>
+
+  <section class="page" id="page-trend">
+    <section class="panel">
+      <div class="panel-title">
+        <h2>점수 흐름</h2>
+      </div>
+      <div class="name-row">
+        <input id="trend-name-input" type="text" autocomplete="name" placeholder="기록할 때 입력한 이름을 정확히 입력하세요" />
+        <button class="btn primary" id="trend-name-confirm" type="button">조회</button>
+      </div>
+      <div class="status" id="trend-status"></div>
+      <canvas id="trend-chart"></canvas>
+      <div id="chart-fallback"></div>
+    </section>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+(() => {
+  const STORAGE_KEY = 'dailyMoodCheckRecordsV2';
+  const questions = [
+    { id: 'up', label: '기분이 들뜨거나 예민하게 올라온 정도', low: '전혀 없음', mid: '보통', high: '매우 강함' },
+    { id: 'down', label: '가라앉음, 우울감, 무기력감', low: '전혀 없음', mid: '보통', high: '매우 강함' },
+    { id: 'sleep', label: '수면의 충분함', low: '거의 못 잠', mid: '보통', high: '충분히 잠' },
+    { id: 'energy', label: '에너지와 활동량', low: '매우 낮음', mid: '보통', high: '매우 높음' },
+    { id: 'speed', label: '생각, 말, 충동의 속도', low: '느림/없음', mid: '보통', high: '매우 빠름' },
+    { id: 'anxiety', label: '불안, 초조, 긴장감', low: '전혀 없음', mid: '보통', high: '매우 강함' },
+    { id: 'risk', label: '자해 생각 또는 위험한 충동', low: '전혀 없음', mid: '주의 필요', high: '즉시 도움 필요' }
+  ];
+
+  const stateInfo = {
+    stable: {
+      name: '안정 범위',
+      badge: 'stable',
+      desc: '오늘은 큰 상승이나 하강 신호가 비교적 낮게 보입니다.',
+      solution: {
+        now: ['현재 루틴을 유지하기', '오늘 기록을 짧게 남기기'],
+        today: ['식사, 수면, 복약 시간을 일정하게 맞추기', '가벼운 움직임 20분 넣기'],
+        help: ['변화가 3일 이상 이어지면 기록을 들고 상담자나 주치의와 공유하기']
+      }
+    },
+    mania: {
+      name: '상승 기분 주의',
+      badge: 'mania',
+      desc: '들뜸, 에너지 상승, 생각 속도가 함께 올라온 신호가 있습니다.',
+      solution: {
+        now: ['새로운 결정이나 큰 소비를 잠시 미루기', '카페인, 술, 밤샘 자극 줄이기'],
+        today: ['잠들 시간을 먼저 정하고 조명을 낮추기', '오늘 할 일을 1개만 고르기'],
+        help: ['수면이 줄어도 피곤하지 않거나 충동이 강해지면 전문가에게 연락하기']
+      }
+    },
+    depression: {
+      name: '우울 주의',
+      badge: 'depression',
+      desc: '우울감, 무기력, 수면 또는 에너지 저하 쪽 신호가 큽니다.',
+      solution: {
+        now: ['물 한 잔 마시고 몸을 3분만 움직이기', '해야 할 일을 가장 작은 단위로 줄이기'],
+        today: ['햇빛이나 밝은 곳에 10분 있기', '믿을 수 있는 사람에게 짧게 상태 알리기'],
+        help: ['우울감이 깊어지거나 일상 유지가 어려우면 상담자나 의료진에게 공유하기']
+      }
+    },
+    anxiety: {
+      name: '불안/초조 주의',
+      badge: 'anxiety',
+      desc: '불안, 긴장, 초조함이 높은 편입니다.',
+      solution: {
+        now: ['4초 들이쉬고 6초 내쉬는 호흡 5회', '주변에서 보이는 물건 5가지를 천천히 말하기'],
+        today: ['뉴스, SNS, 메시지 확인 시간을 줄이기', '몸의 긴장을 풀 수 있는 스트레칭 10분 하기'],
+        help: ['공황감, 불면, 위험 충동이 같이 오르면 도움 요청을 앞당기기']
+      }
+    },
+    mixed: {
+      name: '혼재 신호 주의',
+      badge: 'mixed',
+      desc: '상승 에너지와 우울/불안 신호가 동시에 보입니다.',
+      solution: {
+        now: ['중요한 결정, 말다툼, 충동적 행동을 멈추고 20분 쉬기', '혼자 버티지 말고 가까운 사람에게 현재 상태 알리기'],
+        today: ['수면, 복약, 식사부터 확인하기', '자극적인 장소나 콘텐츠를 피하기'],
+        help: ['혼재 상태가 반복되거나 강하면 의료진과 빠르게 상의하기']
+      }
+    },
+    risk: {
+      name: '즉시 도움 필요',
+      badge: 'risk',
+      desc: '자해 생각 또는 위험 충동 점수가 높습니다. 지금은 혼자 해결하려 하지 않는 것이 중요합니다.',
+      solution: {
+        now: ['혼자 있지 말고 신뢰할 수 있는 사람에게 바로 연락하기', '위험한 물건이나 수단에서 거리를 두기'],
+        today: ['미국에서는 988에 전화/문자하거나 988lifeline.org 채팅 이용하기', '긴급한 위험이 있으면 현지 응급번호로 연락하기'],
+        help: ['주치의, 상담자, 가족에게 오늘 점수와 상태를 그대로 보여주기']
+      }
+    }
+  };
+
+  let records = loadRecords();
+  let answers = {};
+  let currentUser = '';
+  let historyLookupName = '';
+  let trendLookupName = '';
+  let chart = null;
+
+  const $ = (id) => document.getElementById(id);
+
+  function loadRecords() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveRecords() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+  }
+
+  function init() {
+    renderQuestions();
+    renderAnswerSummary();
+    bindEvents();
+    renderHistory();
+    renderTrend();
+  }
+
+  function bindEvents() {
+    document.querySelectorAll('.tab').forEach((tab) => {
+      tab.addEventListener('click', () => showPage(tab.dataset.tab));
+    });
+
+    $('name-input').addEventListener('input', () => {
+      $('name-confirm').disabled = !$('name-input').value.trim();
+    });
+
+    $('name-input').addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && $('name-input').value.trim()) {
+        event.preventDefault();
+        confirmName();
+      }
+    });
+
+    $('name-confirm').addEventListener('click', confirmName);
+    $('reset-form').addEventListener('click', resetForm);
+    $('questionnaire').addEventListener('submit', submitCheck);
+    $('history-name-confirm').addEventListener('click', confirmHistoryLookup);
+    $('trend-name-confirm').addEventListener('click', confirmTrendLookup);
+    $('history-name-input').addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        confirmHistoryLookup();
+      }
+    });
+    $('trend-name-input').addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        confirmTrendLookup();
+      }
+    });
+    $('export-json').addEventListener('click', exportJson);
+    $('clear-history').addEventListener('click', clearHistory);
+  }
+
+  function renderQuestions() {
+    $('questions').innerHTML = questions.map((q, index) => `
+      <section class="q" data-question="${q.id}">
+        <div class="q-head">
+          <div>
+            <p class="q-title">${index + 1}. ${q.label}</p>
+            <p class="q-desc">0 = ${q.low} · 5 = ${q.mid} · 10 = ${q.high}</p>
+          </div>
+          <div class="picked" id="picked-${q.id}">미선택</div>
+        </div>
+        <div class="scale" role="group" aria-label="${q.label}">
+          ${Array.from({ length: 11 }, (_, value) => `<button type="button" data-q="${q.id}" data-v="${value}">${value}</button>`).join('')}
+        </div>
+        <div class="scale-labels"><span>${q.low}</span><span>${q.mid}</span><span>${q.high}</span></div>
+      </section>
+    `).join('');
+
+    document.querySelectorAll('.scale button').forEach((button) => {
+      button.addEventListener('click', () => pickAnswer(button.dataset.q, Number(button.dataset.v)));
+    });
+  }
+
+  function pickAnswer(qid, value) {
+    answers[qid] = value;
+    document.querySelectorAll(`button[data-q="${qid}"]`).forEach((button) => {
+      button.classList.toggle('selected', Number(button.dataset.v) === value);
+      button.setAttribute('aria-pressed', Number(button.dataset.v) === value ? 'true' : 'false');
+    });
+
+    const picked = $(`picked-${qid}`);
+    picked.textContent = `${value}점`;
+    picked.classList.add('has-value');
+    renderAnswerSummary();
+  }
+
+  function renderAnswerSummary() {
+    $('answer-summary').innerHTML = questions.map((q) => {
+      const value = answers[q.id];
+      return `<div class="mini-row"><span>${q.label}</span><strong>${value === undefined ? '-' : value + '점'}</strong></div>`;
+    }).join('');
+  }
+
+  function confirmName() {
+    const name = $('name-input').value.trim();
+    if (!name) {
+      alert('이름을 입력해 주세요.');
+      return;
+    }
+    currentUser = name;
+    $('name-row').style.display = 'none';
+    $('name-status').textContent = `${name}님, 아래 번호를 선택하면 바로 표시됩니다.`;
+    $('name-status').classList.add('show');
+    $('questionnaire').classList.add('show');
+  }
+
+  function resetForm() {
+    answers = {};
+    currentUser = '';
+    $('name-input').value = '';
+    $('name-confirm').disabled = true;
+    $('name-row').style.display = 'grid';
+    $('name-status').classList.remove('show');
+    $('questionnaire').classList.remove('show');
+    renderQuestions();
+    renderAnswerSummary();
+    showPage('check');
+  }
+
+  function submitCheck(event) {
+    event.preventDefault();
+    if (!currentUser) {
+      alert('이름을 먼저 확인해 주세요.');
+      return;
+    }
+
+    const missing = questions.filter((q) => answers[q.id] === undefined);
+    if (missing.length) {
+      alert(`${missing.length}개 항목이 아직 선택되지 않았어요.`);
+      return;
+    }
+
+    const result = calcResult(answers);
+    const record = {
+      id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+      user: currentUser,
+      createdAt: new Date().toISOString(),
+      answers: { ...answers },
+      scores: result.scores,
+      stateKey: result.stateKey
+    };
+    records.push(record);
+    saveRecords();
+    historyLookupName = currentUser;
+    trendLookupName = currentUser;
+    $('history-name-input').value = currentUser;
+    $('trend-name-input').value = currentUser;
+    renderResult(record, true);
+    renderHistory();
+    renderTrend();
+    showPage('result');
+  }
+
+  function calcResult(a) {
+    const sleepDeficit = Math.max(0, 5 - a.sleep);
+    const lowEnergy = Math.max(0, 5 - a.energy);
+    const mania = a.up + a.energy + a.speed + sleepDeficit;
+    const depression = a.down + lowEnergy + sleepDeficit;
+    const anxiety = a.anxiety;
+    const risk = a.risk;
+
+    let stateKey = 'stable';
+    if (risk >= 7) stateKey = 'risk';
+    else if (mania >= 16 && depression >= 10) stateKey = 'mixed';
+    else if (mania >= 19) stateKey = 'mania';
+    else if (depression >= 14) stateKey = 'depression';
+    else if (anxiety >= 7) stateKey = 'anxiety';
+
+    return { stateKey, scores: { mania, depression, anxiety, risk } };
+  }
+
+  function renderResult(record, justSaved) {
+    const info = stateInfo[record.stateKey] || stateInfo.stable;
+    const answerRows = questions.map((q) => {
+      return `<div class="mini-row"><span>${q.label}</span><strong>${record.answers[q.id]}점</strong></div>`;
+    }).join('');
+
+    $('result-panel').innerHTML = `
+      <div class="result-hero">
+        <div>
+          <p class="subtitle">${escapeHtml(record.user)} · ${formatDate(record.createdAt)}${justSaved ? ' · 저장 완료' : ''}</p>
+          <h2 class="state">${info.name}</h2>
+          <p class="subtitle">${info.desc}</p>
+        </div>
+        <div class="badge ${info.badge}">${info.name}</div>
+      </div>
+
+      <div class="score-grid">
+        <div class="score"><span>상승 점수</span><strong>${record.scores.mania}</strong></div>
+        <div class="score"><span>우울 점수</span><strong>${record.scores.depression}</strong></div>
+        <div class="score"><span>불안 점수</span><strong>${record.scores.anxiety}</strong></div>
+        <div class="score"><span>위험 충동</span><strong>${record.scores.risk}</strong></div>
+      </div>
+
+      <div class="solutions">
+        ${solutionBlock('지금 바로', info.solution.now)}
+        ${solutionBlock('오늘 안에', info.solution.today)}
+        ${solutionBlock('도움 요청', info.solution.help)}
+      </div>
+
+      <div class="grid" style="grid-template-columns:minmax(0,1fr) 260px;margin-top:16px;">
+        <div class="subbox">
+          <div class="panel-title"><h2>선택한 번호</h2></div>
+          ${answerRows}
+        </div>
+        <div class="subbox">
+          <div class="panel-title"><h2>다음 행동</h2></div>
+          <button class="btn primary" type="button" id="new-check" style="width:100%;margin-bottom:8px;">새로 체크</button>
+          <button class="btn" type="button" id="open-history" style="width:100%;">이력 보기</button>
+        </div>
+      </div>
+    `;
+
+    $('new-check').addEventListener('click', resetForm);
+    $('open-history').addEventListener('click', () => showPage('history'));
+  }
+
+  function solutionBlock(title, items) {
+    return `
+      <section class="solution">
+        <h3>${title}</h3>
+        <ul>${items.map((item) => `<li>${item}</li>`).join('')}</ul>
+      </section>
+    `;
+  }
+
+  function showPage(page) {
+    document.querySelectorAll('.tab').forEach((tab) => {
+      tab.classList.toggle('active', tab.dataset.tab === page);
+    });
+    document.querySelectorAll('.page').forEach((section) => section.classList.remove('active'));
+    $(`page-${page}`).classList.add('active');
+    if (page === 'history') renderHistory();
+    if (page === 'trend') renderTrend();
+  }
+
+  function recordsForName(name) {
+    return records
+      .filter((record) => record.user === name)
+      .slice()
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }
+
+  function confirmHistoryLookup() {
+    const name = $('history-name-input').value.trim();
+    if (!name) {
+      historyLookupName = '';
+      renderHistory();
+      return;
+    }
+    historyLookupName = name;
+    renderHistory();
+  }
+
+  function confirmTrendLookup() {
+    const name = $('trend-name-input').value.trim();
+    if (!name) {
+      trendLookupName = '';
+      renderTrend();
+      return;
+    }
+    trendLookupName = name;
+    renderTrend();
+  }
+
+  function renderHistory() {
+    $('history-chips').innerHTML = '';
+
+    if (!historyLookupName) {
+      $('history-status').textContent = '기록할 때 사용한 이름을 정확히 입력해야 이력을 볼 수 있습니다.';
+      $('history-status').classList.add('show');
+      $('history-list').innerHTML = '<div class="empty">이름 확인 전에는 저장 이력이 표시되지 않습니다.</div>';
+      return;
+    }
+
+    const list = recordsForName(historyLookupName);
+    if (!list.length) {
+      $('history-status').textContent = `${historyLookupName} 이름으로 저장된 기록이 없습니다. 기록할 때 입력한 이름과 정확히 같은지 확인해 주세요.`;
+      $('history-status').classList.add('show');
+      $('history-list').innerHTML = '<div class="empty">일치하는 이름의 저장 이력이 없습니다.</div>';
+      return;
+    }
+
+    $('history-status').textContent = `${historyLookupName}님의 저장 이력 ${list.length}개`;
+    $('history-status').classList.add('show');
+
+    $('history-list').innerHTML = list.map((record) => {
+      const info = stateInfo[record.stateKey] || stateInfo.stable;
+      return `
+        <article class="hist-item">
+          <div>
+            <div class="hist-title">${escapeHtml(record.user)} · ${info.name}</div>
+            <time>${formatDate(record.createdAt)}</time>
+            <div class="hist-meta">
+              <span>상승 ${record.scores.mania}</span>
+              <span>우울 ${record.scores.depression}</span>
+              <span>불안 ${record.scores.anxiety}</span>
+              <span>위험 ${record.scores.risk}</span>
+            </div>
+          </div>
+          <button class="btn" type="button" data-open-record="${record.id}">결과 보기</button>
+        </article>
+      `;
+    }).join('');
+
+    $('history-list').querySelectorAll('[data-open-record]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const record = records.find((item) => item.id === button.dataset.openRecord);
+        if (record) {
+          renderResult(record, false);
+          showPage('result');
+        }
+      });
+    });
+  }
+
+  function renderTrend() {
+    const fallback = $('chart-fallback');
+
+    if (!trendLookupName) {
+      fallback.innerHTML = '<div class="empty" style="margin-top:12px;">기록할 때 사용한 이름을 정확히 입력해야 흐름을 볼 수 있습니다.</div>';
+      $('trend-status').textContent = '이름 확인 전에는 점수 흐름이 표시되지 않습니다.';
+      $('trend-status').classList.add('show');
+      if (chart) {
+        chart.destroy();
+        chart = null;
+      }
+      return;
+    }
+
+    const list = recordsForName(trendLookupName).slice().reverse().slice(-20);
+    if (!list.length) {
+      fallback.innerHTML = '<div class="empty" style="margin-top:12px;">일치하는 이름의 흐름 기록이 없습니다.</div>';
+      $('trend-status').textContent = `${trendLookupName} 이름으로 저장된 기록이 없습니다. 기록할 때 입력한 이름과 정확히 같은지 확인해 주세요.`;
+      $('trend-status').classList.add('show');
+      if (chart) {
+        chart.destroy();
+        chart = null;
+      }
+      return;
+    }
+
+    fallback.innerHTML = '';
+    $('trend-status').textContent = `${trendLookupName}님의 최근 점수 흐름 ${list.length}개`;
+    $('trend-status').classList.add('show');
+    if (!window.Chart) {
+      fallback.innerHTML = '<div class="notice" style="margin-top:12px;">차트 라이브러리를 불러오지 못했지만, 이력 데이터는 정상 저장되어 있습니다.</div>';
+      return;
+    }
+
+    const ctx = $('trend-chart').getContext('2d');
+    if (chart) chart.destroy();
+    chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: list.map((record) => shortDate(record.createdAt)),
+        datasets: [
+          { label: '상승', data: list.map((r) => r.scores.mania), borderColor: '#d1812f', backgroundColor: 'rgba(209,129,47,.08)', tension: .35 },
+          { label: '우울', data: list.map((r) => r.scores.depression), borderColor: '#315f9f', backgroundColor: 'rgba(49,95,159,.08)', tension: .35 },
+          { label: '불안', data: list.map((r) => r.scores.anxiety), borderColor: '#a33a3a', backgroundColor: 'rgba(163,58,58,.08)', tension: .35 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#211f1c' } } },
+        scales: {
+          x: { ticks: { color: '#706a61' }, grid: { color: 'rgba(0,0,0,.06)' } },
+          y: { beginAtZero: true, suggestedMax: 30, ticks: { color: '#706a61' }, grid: { color: 'rgba(0,0,0,.06)' } }
+        }
+      }
+    });
+  }
+
+  function exportJson() {
+    if (!historyLookupName) {
+      alert('먼저 이름을 정확히 입력해서 이력을 조회해 주세요.');
+      return;
+    }
+    const list = recordsForName(historyLookupName);
+    if (!list.length) {
+      alert('내보낼 이력이 없습니다.');
+      return;
+    }
+    const blob = new Blob([JSON.stringify(list, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `daily-mood-records-${historyLookupName}-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function clearHistory() {
+    if (!historyLookupName) {
+      alert('먼저 이름을 정확히 입력해서 삭제할 이력을 조회해 주세요.');
+      return;
+    }
+    const list = recordsForName(historyLookupName);
+    if (!list.length) return;
+    if (!confirm(`${historyLookupName}님의 저장 이력 ${list.length}개를 삭제할까요? 이 작업은 되돌릴 수 없어요.`)) return;
+    records = records.filter((record) => record.user !== historyLookupName);
+    saveRecords();
+    renderHistory();
+    renderTrend();
+  }
+
+  function formatDate(iso) {
+    return new Intl.DateTimeFormat('ko-KR', {
+      dateStyle: 'medium',
+      timeStyle: 'short'
+    }).format(new Date(iso));
+  }
+
+  function shortDate(iso) {
+    const d = new Date(iso);
+    return `${d.getMonth() + 1}/${d.getDate()} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[char]));
+  }
+
+  function escapeAttr(value) {
+    return escapeHtml(value).replace(/`/g, '&#96;');
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
