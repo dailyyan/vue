@@ -63,6 +63,13 @@
     font-size: 15px;
   }
 
+  .top-stats {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
   .streak {
     min-width: 156px;
     border: 1px solid var(--line);
@@ -85,6 +92,10 @@
     font-size: 31px;
     line-height: 1;
     color: var(--teal);
+  }
+
+  .streak strong.gold {
+    color: var(--gold);
   }
 
   .tabs {
@@ -419,6 +430,213 @@
     font-size: 13px;
   }
 
+  .avatar-card {
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    border: 1px solid #d7e4df;
+    background: #f1faf6;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .avatar-stage {
+    position: relative;
+    width: 106px;
+    aspect-ratio: 1;
+    border: 1px solid #cad8d3;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(160deg, #e8f5f0, #fffaf1);
+  }
+
+  .avatar-stage.dawn { background: linear-gradient(160deg, #fff1df, #e9f6f2); }
+  .avatar-stage.grove { background: linear-gradient(160deg, #def1e4, #f8fff2); }
+  .avatar-stage.night { background: linear-gradient(160deg, #263a47, #7b6ba8); }
+  .avatar-stage.gold { background: linear-gradient(160deg, #fff1bd, #f2c15d); }
+
+  .avatar-body {
+    position: absolute;
+    z-index: 2;
+    left: 31px;
+    bottom: 14px;
+    width: 44px;
+    height: 48px;
+    border: 2px solid rgba(32, 32, 29, .22);
+    border-radius: 18px 18px 12px 12px;
+    background: var(--teal);
+  }
+
+  .avatar-body.starter { background: var(--teal); }
+  .avatar-body.forest { background: var(--green); }
+  .avatar-body.ember { background: var(--coral); }
+  .avatar-body.midnight { background: var(--deep); }
+  .avatar-body.royal { background: #7353a4; }
+
+  .avatar-head {
+    position: absolute;
+    z-index: 3;
+    left: 34px;
+    top: 18px;
+    width: 38px;
+    height: 38px;
+    border: 2px solid rgba(32, 32, 29, .22);
+    border-radius: 50%;
+    background: #f2cda8;
+  }
+
+  .avatar-eye {
+    position: absolute;
+    z-index: 4;
+    top: 33px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #2b2721;
+  }
+
+  .avatar-eye.left { left: 46px; }
+  .avatar-eye.right { right: 46px; }
+
+  .avatar-accessory {
+    position: absolute;
+    z-index: 5;
+    left: 28px;
+    top: 10px;
+    width: 50px;
+    height: 18px;
+    display: none;
+  }
+
+  .avatar-accessory.headband {
+    display: block;
+    top: 22px;
+    height: 8px;
+    border-radius: 999px;
+    background: #e8bd4c;
+  }
+
+  .avatar-accessory.cape {
+    display: block;
+    z-index: 1;
+    left: 25px;
+    top: 54px;
+    width: 56px;
+    height: 36px;
+    border-radius: 8px 8px 18px 18px;
+    background: rgba(231, 111, 81, .78);
+  }
+
+  .avatar-accessory.crown {
+    display: block;
+    top: 7px;
+    height: 18px;
+    background:
+      linear-gradient(135deg, transparent 0 18%, #d89b2b 19% 38%, transparent 39%),
+      linear-gradient(45deg, transparent 0 18%, #f1c75b 19% 38%, transparent 39%);
+    background-color: #d89b2b;
+    clip-path: polygon(0 100%, 12% 38%, 30% 100%, 50% 20%, 70% 100%, 88% 38%, 100% 100%);
+  }
+
+  .avatar-badge {
+    position: absolute;
+    right: 9px;
+    bottom: 9px;
+    min-width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(32, 32, 29, .18);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--deep);
+    font-size: 10px;
+    font-weight: 950;
+  }
+
+  .avatar-info h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .avatar-info p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .xp-track {
+    height: 10px;
+    border-radius: 999px;
+    background: #d9e2de;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+
+  .xp-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+  }
+
+  .avatar-shop {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .shop-group {
+    border-top: 1px solid #eee6d8;
+    padding-top: 10px;
+  }
+
+  .shop-title {
+    margin: 0 0 8px;
+    color: #3b352f;
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .shop-items {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .shop-item {
+    min-height: 46px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: #302b25;
+    padding: 7px 8px;
+    text-align: left;
+  }
+
+  .shop-item strong {
+    display: block;
+    font-size: 12px;
+  }
+
+  .shop-item span {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  .shop-item.active {
+    border-color: var(--teal);
+    background: #edf8f4;
+  }
+
+  .shop-item.locked {
+    opacity: .58;
+    cursor: default;
+  }
+
   .today-mini {
     display: grid;
     gap: 8px;
@@ -568,6 +786,7 @@
 
   @media (max-width: 880px) {
     .top, .layout { grid-template-columns: 1fr; }
+    .top-stats { justify-content: stretch; }
     .streak { width: 100%; }
     .plan-grid { grid-template-columns: 1fr; }
   }
@@ -578,6 +797,8 @@
     .name-row, .template-row { grid-template-columns: 1fr; }
     .choice-grid, .score-strip { grid-template-columns: 1fr; }
     .result-hero, .hist-item, .bar-row { grid-template-columns: 1fr; }
+    .avatar-card { grid-template-columns: 1fr; }
+    .shop-items { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -588,9 +809,15 @@
       <h1>꾸준함 기록지</h1>
       <p class="sub">오늘 컨디션에 맞춰 운동과 학습 계획을 작게 만들고, 완료한 만큼 기록합니다.</p>
     </div>
-    <div class="streak">
-      <span>현재 연속 기록</span>
-      <strong id="streak-count">0일</strong>
+    <div class="top-stats">
+      <div class="streak">
+        <span>현재 연속 기록</span>
+        <strong id="streak-count">0일</strong>
+      </div>
+      <div class="streak">
+        <span>누적 포인트</span>
+        <strong class="gold" id="point-count">0P</strong>
+      </div>
     </div>
   </header>
 
@@ -659,6 +886,8 @@
         <div class="side-note">
           성공 기준은 “많이 하기”가 아니라 “끊기지 않기”입니다. 가장 힘든 날의 최소 단위는 1개로 고정됩니다.
         </div>
+        <div class="avatar-card" id="avatar-card"></div>
+        <div class="avatar-shop" id="avatar-shop"></div>
         <div class="today-mini" id="live-summary"></div>
         <div class="name-history" id="name-history"></div>
       </aside>
@@ -699,6 +928,7 @@
 <script>
 (() => {
   const STORAGE_KEY = 'consistencyPlannerRecordsV1';
+  const AVATAR_KEY = 'consistencyPlannerAvatarV1';
   const metrics = [
     { id: 'energy', title: '몸 에너지', desc: '0 = 거의 없음 · 10 = 아주 좋음', low: '바닥', high: '좋음', value: 4 },
     { id: 'mind', title: '마음 여유', desc: '0 = 버거움 · 10 = 여유 있음', low: '버거움', high: '여유', value: 4 },
@@ -729,7 +959,37 @@
     }
   };
 
+  const avatarItems = {
+    body: [
+      { id: 'starter', label: '기본 복장', cost: 0 },
+      { id: 'forest', label: '초록 로브', cost: 80 },
+      { id: 'ember', label: '불꽃 재킷', cost: 160 },
+      { id: 'midnight', label: '밤색 코트', cost: 260 },
+      { id: 'royal', label: '보라 망토', cost: 380 }
+    ],
+    accessory: [
+      { id: 'none', label: '장식 없음', cost: 0 },
+      { id: 'headband', label: '노란 머리띠', cost: 60 },
+      { id: 'cape', label: '짧은 케이프', cost: 140 },
+      { id: 'crown', label: '작은 왕관', cost: 320 }
+    ],
+    stage: [
+      { id: 'plain', label: '기본 배경', cost: 0 },
+      { id: 'dawn', label: '새벽 배경', cost: 100 },
+      { id: 'grove', label: '초록 배경', cost: 180 },
+      { id: 'night', label: '밤 배경', cost: 280 },
+      { id: 'gold', label: '금빛 배경', cost: 420 }
+    ],
+    badge: [
+      { id: 'I', label: '배지 I', cost: 0 },
+      { id: 'II', label: '배지 II', cost: 120 },
+      { id: 'III', label: '배지 III', cost: 240 },
+      { id: 'IV', label: '배지 IV', cost: 420 }
+    ]
+  };
+
   let records = loadRecords();
+  let avatarPrefs = loadAvatarPrefs();
   let state = {
     user: '',
     focus: 'both',
@@ -753,9 +1013,23 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
   }
 
+  function loadAvatarPrefs() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(AVATAR_KEY) || '{}');
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveAvatarPrefs() {
+    localStorage.setItem(AVATAR_KEY, JSON.stringify(avatarPrefs));
+  }
+
   function init() {
     renderMetrics();
     renderLiveSummary();
+    renderRpg();
     renderNameHistory();
     updateStreak();
     bindEvents();
@@ -832,6 +1106,7 @@
     $('hello').classList.add('show');
     $('plan-form').classList.add('show');
     renderLiveSummary();
+    renderRpg();
     renderNameHistory();
     renderHistory();
     renderStats();
@@ -851,6 +1126,7 @@
     document.querySelectorAll('.choice').forEach((button) => button.classList.toggle('active', button.dataset.focus === 'both'));
     renderMetrics();
     renderLiveSummary();
+    renderRpg();
     renderNameHistory();
     showPage('make');
   }
@@ -867,6 +1143,138 @@
       <div class="mini-row"><span>목표 방향</span><strong>${focusLabel}</strong></div>
       <div class="mini-row"><span>추천 개수</span><strong>${calc.count}개</strong></div>
     `;
+  }
+
+  function renderRpg() {
+    const totalPoints = records.reduce((sum, record) => sum + recordPoints(record), 0);
+    if (!state.user) {
+      $('point-count').textContent = `${totalPoints}P`;
+      $('avatar-card').innerHTML = `
+        <div class="avatar-stage">
+          <div class="avatar-accessory none"></div>
+          <div class="avatar-head"></div>
+          <div class="avatar-eye left"></div>
+          <div class="avatar-eye right"></div>
+          <div class="avatar-body starter"></div>
+          <div class="avatar-badge">I</div>
+        </div>
+        <div class="avatar-info">
+          <h3>이름을 확인하면 캐릭터가 열립니다</h3>
+          <p>완료한 기록으로 포인트와 레벨이 자동 계산됩니다.</p>
+          <div class="xp-track"><div class="xp-fill" style="width:0%"></div></div>
+        </div>
+      `;
+      $('avatar-shop').innerHTML = '';
+      return;
+    }
+
+    const profile = calcUserProfile(state.user);
+    const avatar = getAvatar(state.user, profile.points);
+    const nextNeed = profile.level * 100;
+    const progress = Math.min(100, Math.round(profile.currentXp / 100 * 100));
+    $('point-count').textContent = `${profile.points}P`;
+    $('avatar-card').innerHTML = `
+      ${avatarHtml(avatar)}
+      <div class="avatar-info">
+        <h3>${escapeHtml(state.user)} · Lv.${profile.level}</h3>
+        <p>${profile.points}P · 다음 레벨까지 ${Math.max(0, nextNeed - profile.points)}P</p>
+        <p>성공한 날 ${profile.successDays}일 · 완료 ${profile.doneTasks}개</p>
+        <div class="xp-track"><div class="xp-fill" style="width:${progress}%"></div></div>
+      </div>
+    `;
+    renderAvatarShop(state.user, profile.points);
+  }
+
+  function avatarHtml(avatar) {
+    const stage = avatar.stage === 'plain' ? '' : avatar.stage;
+    const accessory = avatar.accessory === 'none' ? 'none' : avatar.accessory;
+    return `
+      <div class="avatar-stage ${stage}">
+        <div class="avatar-accessory ${accessory}"></div>
+        <div class="avatar-head"></div>
+        <div class="avatar-eye left"></div>
+        <div class="avatar-eye right"></div>
+        <div class="avatar-body ${avatar.body}"></div>
+        <div class="avatar-badge">${escapeHtml(avatar.badge)}</div>
+      </div>
+    `;
+  }
+
+  function renderAvatarShop(user, points) {
+    const avatar = getAvatar(user, points);
+    const slotNames = { body: '복장', accessory: '장식', stage: '배경', badge: '배지' };
+    $('avatar-shop').innerHTML = Object.keys(avatarItems).map((slot) => `
+      <section class="shop-group">
+        <p class="shop-title">${slotNames[slot]}</p>
+        <div class="shop-items">
+          ${avatarItems[slot].map((item) => {
+            const unlocked = points >= item.cost;
+            const active = avatar[slot] === item.id;
+            return `
+              <button class="shop-item ${active ? 'active' : ''} ${unlocked ? '' : 'locked'}" type="button" data-slot="${slot}" data-item="${item.id}" ${unlocked ? '' : 'disabled'}>
+                <strong>${escapeHtml(item.label)}</strong>
+                <span>${active ? '장착 중' : unlocked ? '장착 가능' : item.cost + 'P 필요'}</span>
+              </button>
+            `;
+          }).join('')}
+        </div>
+      </section>
+    `).join('');
+
+    $('avatar-shop').querySelectorAll('[data-slot]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const current = getAvatar(user, points);
+        current[button.dataset.slot] = button.dataset.item;
+        avatarPrefs[user] = current;
+        saveAvatarPrefs();
+        renderRpg();
+      });
+    });
+  }
+
+  function getAvatar(user, points) {
+    const saved = avatarPrefs[user] || {};
+    const availablePoints = points === undefined ? Infinity : points;
+    return {
+      body: isUnlocked('body', saved.body, availablePoints) ? saved.body : 'starter',
+      accessory: isUnlocked('accessory', saved.accessory, availablePoints) ? saved.accessory : 'none',
+      stage: isUnlocked('stage', saved.stage, availablePoints) ? saved.stage : 'plain',
+      badge: isUnlocked('badge', saved.badge, availablePoints) ? saved.badge : 'I'
+    };
+  }
+
+  function isUnlocked(slot, id, points) {
+    if (!id) return false;
+    const item = avatarItems[slot].find((candidate) => candidate.id === id);
+    return item ? points >= item.cost : false;
+  }
+
+  function calcUserProfile(user) {
+    const list = records.filter((record) => record.user === user);
+    const points = list.reduce((sum, record) => sum + recordPoints(record), 0);
+    const doneTasks = list.reduce((sum, record) => sum + doneCount(record), 0);
+    const successDays = new Set(list.filter((record) => doneCount(record) > 0).map((record) => localDateKey(record.createdAt))).size;
+    return {
+      points,
+      doneTasks,
+      successDays,
+      level: Math.floor(points / 100) + 1,
+      currentXp: points % 100
+    };
+  }
+
+  function recordPoints(record) {
+    const done = doneCount(record);
+    const total = record.tasks.length;
+    if (!done) return 0;
+    let points = done * 10 + 15;
+    if (done === total) points += 20;
+    if (record.capacity && record.capacity.level === 'tiny') points += 10;
+    return points;
+  }
+
+  function doneCount(record) {
+    return record.tasks.filter((task) => task.done).length;
   }
 
   function renderNameHistory() {
@@ -892,11 +1300,12 @@
         const done = record.tasks.filter((task) => task.done).length;
         const total = record.tasks.length;
         const info = levelText[record.capacity.level];
+        const reward = recordPoints(record);
         return `
           <article class="name-record">
             <div>
               <div class="name-record-title">${info.label}</div>
-              <div class="name-record-meta">${formatDate(record.createdAt)} · ${done}/${total}개 완료</div>
+              <div class="name-record-meta">${formatDate(record.createdAt)} · ${done}/${total}개 완료 · ${reward}P</div>
             </div>
             <button class="btn light" type="button" data-open-name-record="${record.id}">열기</button>
           </article>
@@ -962,6 +1371,7 @@
     records.push(record);
     saveRecords();
     renderResult(record, true);
+    renderRpg();
     renderNameHistory();
     renderHistory();
     renderStats();
@@ -1011,6 +1421,7 @@
     const doneCount = record.tasks.filter((task) => task.done).length;
     const total = record.tasks.length;
     const percent = total ? Math.round(doneCount / total * 100) : 0;
+    const reward = recordPoints(record);
 
     $('result-panel').innerHTML = `
       <div class="result-hero">
@@ -1030,7 +1441,7 @@
       </div>
 
       <div class="side-note" style="margin-bottom:12px;">
-        완료율 ${percent}% · ${doneCount}/${total}개 완료. 최소 유지일에는 1개만 체크되어도 성공으로 기록됩니다.
+        완료율 ${percent}% · ${doneCount}/${total}개 완료 · 이번 기록 보상 ${reward}P. 최소 유지일에는 1개만 체크되어도 성공으로 기록됩니다.
       </div>
 
       <div class="plan-grid" id="task-list">
@@ -1059,6 +1470,7 @@
         records[index] = record;
         saveRecords();
         renderResult(record, false);
+        renderRpg();
         renderNameHistory();
         renderHistory();
         renderStats();
@@ -1128,6 +1540,7 @@
       const done = record.tasks.filter((task) => task.done).length;
       const total = record.tasks.length;
       const info = levelText[record.capacity.level];
+      const reward = recordPoints(record);
       return `
         <article class="hist-item">
           <div>
@@ -1137,6 +1550,7 @@
               <span>계획 ${total}개</span>
               <span>완료 ${done}개</span>
               <span>완료율 ${total ? Math.round(done / total * 100) : 0}%</span>
+              <span>${reward}P</span>
             </div>
           </div>
           <button class="btn light" type="button" data-open="${record.id}">열기</button>
@@ -1169,6 +1583,7 @@
 
     const totalPlans = list.reduce((sum, record) => sum + record.tasks.length, 0);
     const totalDone = list.reduce((sum, record) => sum + record.tasks.filter((task) => task.done).length, 0);
+    const totalPoints = list.reduce((sum, record) => sum + recordPoints(record), 0);
     const avg = totalPlans ? Math.round(totalDone / totalPlans * 100) : 0;
 
     $('stats-body').innerHTML = `
@@ -1176,18 +1591,20 @@
         <div class="score"><span>최근 기록</span><strong>${list.length}</strong></div>
         <div class="score"><span>계획 합계</span><strong>${totalPlans}</strong></div>
         <div class="score"><span>완료 합계</span><strong>${totalDone}</strong></div>
-        <div class="score"><span>평균 완료율</span><strong>${avg}%</strong></div>
+        <div class="score"><span>획득 포인트</span><strong>${totalPoints}P</strong></div>
       </div>
+      <div class="side-note" style="margin-bottom:12px;">최근 평균 완료율 ${avg}% · 완료 1개당 10P, 하루 성공 15P, 전부 완료 20P가 더해집니다.</div>
       <div class="bar-list">
         ${list.map((record) => {
           const done = record.tasks.filter((task) => task.done).length;
           const total = record.tasks.length;
           const pct = total ? Math.round(done / total * 100) : 0;
+          const points = recordPoints(record);
           return `
             <div class="bar-row">
               <span>${shortDate(record.createdAt)}</span>
               <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
-              <strong>${done}/${total}</strong>
+              <strong>${points}P</strong>
             </div>
           `;
         }).join('')}
@@ -1233,6 +1650,7 @@
     if (!confirm('저장된 꾸준함 기록을 모두 삭제할까요?')) return;
     records = [];
     saveRecords();
+    renderRpg();
     renderNameHistory();
     renderHistory();
     renderStats();
